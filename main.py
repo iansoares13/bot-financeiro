@@ -1,5 +1,5 @@
 import os
-import openai
+from openai import OpenAI
 from flask import Flask, request
 import requests
 import json
@@ -9,12 +9,12 @@ app = Flask(__name__)
 # Configurações
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai.api_key = OPENAI_API_KEY
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Enviar mensagem para o Telegram
 def enviar_mensagem_telegram(chat_id, texto, botoes=None):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": chat_id, "text": texto}
+    payload = {"chat_id": chat_id, "text": texto, "parse_mode": "Markdown"}
     
     if botoes:
         payload["reply_markup"] = {
@@ -182,7 +182,7 @@ Frase: {frase}
 """
 
     try:
-        resposta = openai.ChatCompletion.create(
+        resposta = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3
