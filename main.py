@@ -52,8 +52,8 @@ def receber_mensagem():
             resumo = (
                 f"Resumo do lançamento:\n"
                 f"📅 *Data:* {resposta['data']}\n"
-                f"💸 *Tipo:* {resposta['tipo']}\n"
-                f"R$ *Valor:* {resposta['valor']}\n"
+                f"⚖️ *Tipo:* {resposta['tipo']}\n"
+                f"💰 *Valor:* {resposta['valor']}\n"
                 f"💳 *Pagamento:* {resposta['forma_pagamento']}\n"
                 f"📂 *Categoria:* {resposta['categoria']} > {resposta['subcategoria']}\n"
                 f"📝 *Descrição:* {resposta['descricao']}"
