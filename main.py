@@ -118,7 +118,7 @@ def gerar_prompt(frase):
 
 1. data (formato: "DD/MM/AAAA")
 2. tipo (valores possíveis: "Receita", "Despesa" ou "Investimentos")
-3. valor (como número decimal com vírgula, ex: 150,75)
+3. valor (número decimal com vírgula (,) e com duas casas decimais, ex: 150,75, ou 10,00 ou 26,30)
 4. forma_pagamento (valores possíveis: "Pix", "Crédito", "Débito", "Flash", "Dinheiro", "Outro")
 5. categoria (usar apenas as categorias da lista fornecida abaixo)
 6. subcategoria (usar apenas as subcategorias da respectiva categoria)
@@ -227,6 +227,8 @@ Regras:
 - Sempre retorne os campos no idioma português, mesmo que a frase esteja em inglês.
 - "Flash" é o nome do cartão do Vale Alimentação que recebemos. Então podemos ter recebido o saldo depositado no flash como receita, ou também podemos utilizar ele para pagar comida no mercado ou restaurante. Se atente se é receita ou despesa.
 - A resposta deve ser um JSON puro, sem explicações ou comentários.
+- O campo \"valor\" deve sempre estar no formato com vírgula (ex: 10,00) e duas casas decimais.
+
 
 Frase: {frase}
 Data atual: {data_hoje}
