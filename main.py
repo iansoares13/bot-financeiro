@@ -122,7 +122,7 @@ def gerar_prompt(frase):
 4. forma_pagamento (valores possíveis: "Pix", "Crédito", "Débito", "Flash", "Dinheiro", "Outro")
 5. categoria (usar apenas as categorias da lista fornecida abaixo)
 6. subcategoria (usar apenas as subcategorias da respectiva categoria)
-7. descricao (curta e clara, com base na frase original)
+7. descricao (um resumo estruturado e objetivo da transação, com base na frase original, mas sem copiar literalmente. Elabore a frase com clareza, como se estivesse preenchendo uma planilha de controle financeiro.)
 
 Se alguma informação obrigatória estiver ausente, adicione no JSON um campo extra chamado "faltando", com uma lista dos nomes dos campos ausentes.
 
@@ -226,8 +226,9 @@ Regras:
 - Se a data estiver ausente, use a data atual.
 - Sempre retorne os campos no idioma português, mesmo que a frase esteja em inglês.
 - "Flash" é o nome do cartão do Vale Alimentação que recebemos. Então podemos ter recebido o saldo depositado no flash como receita, ou também podemos utilizar ele para pagar comida no mercado ou restaurante. Se atente se é receita ou despesa.
-- A resposta deve ser um JSON puro, sem explicações ou comentários.
 - O campo \"valor\" deve sempre estar no formato com vírgula (ex: 10,00) e duas casas decimais.
+- A descrição deve seguir o formato: [item ou serviço] — [detalhes do pagamento], como se fosse um lançamento em planilha. Não copie literalmente a frase do usuário. Resuma com lógica e clareza, e de forma breve, curta e clara.
+- A resposta deve ser um JSON puro, sem explicações ou comentários.
 
 
 Frase: {frase}
