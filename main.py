@@ -3,6 +3,7 @@ from openai import OpenAI
 from flask import Flask, request
 import requests
 import json
+import datetime
 
 app = Flask(__name__)
 
@@ -65,6 +66,8 @@ def receber_mensagem():
 
 # Envia a frase para o GPT e retorna o JSON interpretado
 def consultar_gpt(frase):
+    data_hoje = datetime.date.today().strftime("%Y/%m/%d")
+    
     prompt = f"""Você é um interpretador financeiro inteligente. Analise a seguinte frase em linguagem natural e retorne um JSON com os seguintes campos, nesta ordem:
 
 1. data (formato: "AAAA/MM/DD")
@@ -179,6 +182,7 @@ Regras:
 - A resposta deve ser um **JSON puro**, sem explicações ou comentários.
 
 Frase: {frase}
+Data atual: {data_hoje}
 """
 
     try:
