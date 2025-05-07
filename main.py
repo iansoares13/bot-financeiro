@@ -3,7 +3,7 @@ import openai
 from flask import Flask, request
 import requests
 import json
-from datetime import datetime
+import datetime
 
 app = Flask(__name__)
 
@@ -73,6 +73,7 @@ def receber_mensagem():
 
 # GPT - NOVO LANÇAMENTO
 def consultar_gpt(frase):
+    data_hoje = datetime.date.today().strftime("%Y/%m/%d")
     prompt = gerar_prompt(frase)
     try:
         resposta = client.chat.completions.create(
