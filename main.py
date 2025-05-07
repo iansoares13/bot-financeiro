@@ -127,10 +127,98 @@ Se alguma informação obrigatória estiver ausente, adicione no JSON um campo e
 
 Use somente as seguintes categorias e subcategorias:
 
-[INCLUA AQUI A LISTA COMPLETA DE CATEGORIAS, como está no seu documento do canvas]
+Receitas:
+- Salário
+- Flash / VA / VR
+- Diárias de Viagem (LINCE)
+- Reembolso de Viagem (LINCE)
+- Transferências / Pix de Outros
+- Outros
+
+Despesas:
+- Moradia
+  - Aluguel / Financiamento
+  - Condomínio
+  - IPTU
+  - Luz
+  - Água
+  - Gás
+  - Telefone Celular
+  - Internet
+  - Serviços / Manutenção
+  - Itens para Casa
+  - Seguro Residencial
+  - Outros
+- Transporte
+  - Seguro
+  - IPVA
+  - Combustível
+  - Metrô / Ônibus
+  - Uber / 99
+  - Estacionamento
+  - Pedágio
+  - Manutenção / Revisão
+  - Limpeza
+  - Outros
+- Alimentação
+  - Mercado / Padaria
+  - Restaurante
+  - Ifood
+  - Outros
+- Saúde
+  - Farmácia
+  - Plano de Saúde
+  - Academia / Esportes
+  - Consultas / Exames
+  - Psicólogo / Terapia
+  - Suplementos
+  - Dentista Particular
+  - Outros
+- Pets
+  - Plano de Saúde Pets
+  - Ração
+  - Areia Higiênica
+  - Brinquedos / Utensílios
+  - Consultas / Exames / Vacinas
+  - Outros
+- Cuidados Pessoais
+  - Barbeiro / Salão
+  - Roupa / Tênis / Acessórios
+  - Outros
+- Lazer
+  - Ingressos (Cinema / Shows / Festas / Jogos)
+  - Viagens / Turismo
+  - Outros
+- Assinaturas
+  - Netflix
+  - Amazon Prime Video
+  - Disney+
+  - Globoplay + Premier
+  - Max
+  - Paramount+
+  - NBA League Pass
+  - Ifood Clube
+  - Livelo
+  - Azul
+  - Smiles
+  - Wine
+  - Chatgpt
+  - Mantiqueira (Ovos)
+  - Outros
+- Aleatórios
+  - Presentes
+  - Outros
+
+Investimentos:
+- Depósitos Mensais
+  - Fundo de Emergência
+  - Fundos Imobiliários / Ações
+  - Opções
+  - Renda Fixa
+  - Planos com Mozão
 
 Regras:
-- Nunca invente novas categorias ou subcategorias.
+- Nunca invente novas categorias. Nunca invente novas subcategorias.
 - Se não conseguir classificar com precisão a subcategoria, use "Outros" da categoria correspondente.
 - Se não conseguir classificar nenhuma categoria, use a categoria "Aleatórios".
 - Se a frase contiver “ontem”, “hoje” ou datas como “dia 02/04”, converta isso para o formato “DD/MM/AAAA”.
@@ -140,6 +228,7 @@ Regras:
 - A resposta deve ser um JSON puro, sem explicações ou comentários.
 
 Frase: {frase}
+Data atual: {data_hoje}
 """
 
 # Iniciar app Flask
