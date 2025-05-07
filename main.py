@@ -1,5 +1,5 @@
 import os
-import openai
+from openai import OpenAI
 from flask import Flask, request
 import requests
 import json
@@ -10,7 +10,7 @@ app = Flask(__name__)
 # Configurações
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-client = openai.OpenAI(api_key=OPENAI_API_KEY)
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Banco temporário para armazenar os JSONs por chat_id
 dados_temp = {}
@@ -73,7 +73,6 @@ def receber_mensagem():
 
 # GPT - NOVO LANÇAMENTO
 def consultar_gpt(frase):
-    data_hoje = datetime.date.today().strftime("%Y/%m/%d")
     prompt = gerar_prompt(frase)
     try:
         resposta = client.chat.completions.create(
@@ -114,6 +113,7 @@ Frase: {frase_corrigida}
 
 # Prompt original estruturado
 def gerar_prompt(frase):
+    data_hoje = datetime.date.today().strftime("%d/%m/%Y")
     return f"""Você é um interpretador financeiro inteligente. Analise a seguinte frase em linguagem natural e retorne um JSON com os seguintes campos, nesta ordem:
 
 1. data (formato: "DD/MM/AAAA")
