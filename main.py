@@ -4,6 +4,8 @@ from flask import Flask, request
 import requests
 import json
 import datetime
+from excel_writer import inserir_linha_excel
+
 
 app = Flask(__name__)
 
@@ -64,7 +66,13 @@ def receber_mensagem():
         chat_id = data["callback_query"]["message"]["chat"]["id"]
         resposta = data["callback_query"]["data"]
         if "Confirmar" in resposta:
-            enviar_mensagem_telegram(chat_id, "✅ Lançamento confirmado!")
+            dados = dados_temp.get(chat_id)
+            if dados:
+                sucesso = inserir_linha_excel(dados, dados.get("mensagem_original", ""))
+                if sucesso:
+                    enviar_mensagem_telegram(chat_id, "✅ Lançamento confirmado e salvo no Excel!")
+                else:
+                    enviar_mensagem_telegram(chat_id, "⚠️ Erro ao salvar no Excel.")
             dados_temp.pop(chat_id, None)
         elif "Corrigir" in resposta:
             enviar_mensagem_telegram(chat_id, "✏️ Ok! Envie apenas o que deseja corrigir.")
