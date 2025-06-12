@@ -6,7 +6,7 @@ CLIENT_ID = os.getenv("CLIENT_ID")
 TENANT_ID = os.getenv("TENANT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 EXCEL_FILE_NAME = "Controle Financeiro.xlsx"
-EXCEL_FOLDER_NAME = "Planilhas Bot Financeiro"
+EXCEL_FOLDER_NAME = ""
 EXCEL_WORKSHEET = "Dados de Lançamentos"
 
 # Autentica e retorna o token de acesso
@@ -24,7 +24,8 @@ def obter_token():
 
 # Localiza o ID do arquivo Excel
 def buscar_arquivo_excel(token):
-    url = f"https://graph.microsoft.com/v1.0/me/drive/root:/{EXCEL_FOLDER_NAME}/{EXCEL_FILE_NAME}"
+    caminho = f"/{EXCEL_FILE_NAME}" if not EXCEL_FOLDER_NAME else f"/{EXCEL_FOLDER_NAME}/{EXCEL_FILE_NAME}"
+    url = f"https://graph.microsoft.com/v1.0/me/drive/root:{caminho}"
     headers = {"Authorization": f"Bearer {token}"}
     resp = requests.get(url, headers=headers)
     return resp.json().get("id")
