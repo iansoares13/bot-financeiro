@@ -51,6 +51,7 @@ def receber_mensagem():
             enviar_mensagem_telegram(chat_id, f"Faltam as seguintes informações: {faltam}. Por favor, envie apenas essas informações.")
         else:
             dados_temp[chat_id] = resposta
+            resposta["mensagem_original"] = texto_usuario
             resumo = (
                 f"Resumo do lançamento:\n"
                 f"📅 *Data:* {resposta['data']}\n"
