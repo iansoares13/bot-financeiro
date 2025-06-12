@@ -86,7 +86,7 @@ def consultar_gpt(frase):
         resposta = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.3
+            temperature=0.2
         )
         conteudo = resposta.choices[0].message.content
         return json.loads(conteudo)
@@ -111,7 +111,7 @@ Frase: {frase_corrigida}
         resposta = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.3
+            temperature=0.2
         )
         conteudo = resposta.choices[0].message.content
         return json.loads(conteudo)
@@ -231,6 +231,7 @@ Regras:
 - Se não conseguir classificar com precisão a subcategoria, use "Outros" da categoria correspondente.
 - Se não conseguir classificar nenhuma categoria, use a categoria "Aleatórios".
 - Se a frase contiver “ontem”, “hoje” ou datas como “dia 02/04”, converta isso para o formato “DD/MM/AAAA”.
+- Considere que "ontem" é exatamente um dia anterior à data atual no calendário. Nunca retorne a data de hoje se for dito "ontem".
 - Se a data estiver ausente, use a data atual.
 - Sempre retorne os campos no idioma português, mesmo que a frase esteja em inglês.
 - "Flash" é o nome do cartão do Vale Alimentação que recebemos. Então podemos ter recebido o saldo depositado no flash como receita, ou também podemos utilizar ele para pagar comida no mercado ou restaurante. Se atente se é receita ou despesa.
