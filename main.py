@@ -86,7 +86,7 @@ def consultar_gpt(frase):
         resposta = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.2
+            temperature=0.3
         )
         conteudo = resposta.choices[0].message.content
         return json.loads(conteudo)
@@ -111,7 +111,7 @@ Frase: {frase_corrigida}
         resposta = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.2
+            temperature=0.3
         )
         conteudo = resposta.choices[0].message.content
         return json.loads(conteudo)
