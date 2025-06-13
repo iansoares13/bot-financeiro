@@ -4,8 +4,7 @@ from flask import Flask, request
 import requests
 import json
 import datetime
-from excel_writer import inserir_linha_excel
-
+from google_writer import inserir_linha_google_sheets
 
 app = Flask(__name__)
 
@@ -69,7 +68,7 @@ def receber_mensagem():
         if "Confirmar" in resposta:
             dados = dados_temp.get(chat_id)
             if dados:
-                sucesso = inserir_linha_excel(dados, dados.get("mensagem_original", ""))
+                sucesso = inserir_linha_google_sheets(dados, dados.get("mensagem_original", ""))
                 if sucesso:
                     enviar_mensagem_telegram(chat_id, "✅ Lançamento confirmado e salvo no Excel!")
                 else:
