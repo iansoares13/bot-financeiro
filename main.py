@@ -34,6 +34,10 @@ def receber_mensagem():
         chat_id = data["message"]["chat"]["id"]
         texto_usuario = data["message"].get("text", "")
 
+        if texto_usuario.strip().lower() in ["/start", "start"]:
+            enviar_mensagem_telegram(chat_id, "Olá! Envie sua transação para lançamento no controle.")
+            return "OK"
+            
         if chat_id in dados_temp:
             json_antigo = dados_temp[chat_id]
             resposta = consultar_gpt_corrigido(json_antigo, texto_usuario)
@@ -227,17 +231,30 @@ Investimentos:
   - Planos com Mozão
 
 Regras:
-- Nunca invente novas categorias. Nunca invente novas subcategorias.
-- Se não conseguir classificar com precisão a subcategoria, use "Outros" da categoria correspondente.
-- Se não conseguir classificar nenhuma categoria, use a categoria "Aleatórios".
-- Se a frase contiver “ontem”, “hoje” ou datas como “dia 02/04”, converta isso para o formato “DD/MM/AAAA”.
-- Considere que "ontem" é exatamente um dia anterior à data atual no calendário. Nunca retorne a data de hoje se for dito "ontem".
-- Se a data estiver ausente, use a data atual.
-- Sempre retorne os campos no idioma português, mesmo que a frase esteja em inglês.
-- "Flash" é o nome do cartão do Vale Alimentação que recebemos. Então podemos ter recebido o saldo depositado no flash como receita, ou também podemos utilizar ele para pagar comida no mercado ou restaurante. Se atente se é receita ou despesa.
-- O campo \"valor\" deve sempre estar no formato com vírgula (ex: 10,00) e duas casas decimais.
-- A descrição deve seguir o formato: [item ou serviço] — [detalhes do pagamento], como se fosse um lançamento em planilha. Não copie literalmente a frase do usuário. Resuma com lógica e clareza, e de forma breve, curta e clara.
-- A resposta deve ser um JSON puro, sem explicações ou comentários.
+- Nunca invente valores, categorias ou subcategorias. Use apenas o que estiver claramente identificado na frase.
+    Se algum campo obrigatório como valor, data ou categoria estiver ausente, adicione-o no campo "faltando" — não tente deduzir.
+
+- Não reutilize dados de mensagens anteriores. Analise exclusivamente o conteúdo desta frase.
+
+- Se não conseguir classificar com precisão a subcategoria, use "Outros" dentro da categoria correspondente.
+    Se não for possível classificar em nenhuma categoria, use "Aleatórios > Outros".
+
+- Se a frase contiver termos como “ontem”, “hoje”, ou datas como “dia 02/04”, converta corretamente para o formato "DD/MM/AAAA".
+    → "Ontem" é exatamente um dia anterior à data atual no calendário. Nunca retorne a data de hoje se for dito "ontem".
+    → Se nenhuma data for mencionada, use a data atual.
+
+- Sempre retorne os campos no idioma português, mesmo que a frase esteja em outro idioma.
+
+- "Flash" é o nome do nosso cartão de vale alimentação.
+    Se for recebido no Flash, é uma receita. Se for utilizado para pagamento, é uma despesa (geralmente da categoria Alimentação).
+
+- O campo "valor" deve sempre conter vírgula como separador decimal e duas casas decimais (ex: 10,00, 23,90).
+
+- O campo "descricao" deve ser um resumo estruturado e objetivo, com base na frase original, como se estivesse preenchendo uma planilha.
+    Use o formato: [item ou serviço] — [detalhes do pagamento].
+    Não copie literalmente a frase do usuário. Seja claro, breve e lógico.
+
+- A resposta deve ser um JSON puro, sem explicações, comentários ou mensagens adicionais.
 
 
 Frase: {frase}
