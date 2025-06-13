@@ -6,7 +6,7 @@ CLIENT_ID = os.getenv("CLIENT_ID")
 TENANT_ID = os.getenv("TENANT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 EXCEL_FILE_NAME = "Controle Financeiro.xlsx"
-EXCEL_FOLDER_NAME = ""
+EXCEL_FOLDER_NAME = "Planilhas Bot Financeiro"  # se for tirar da pasta, deixe como ""
 EXCEL_WORKSHEET = "Dados de Lançamentos"
 
 # Autentica e retorna o token de acesso
@@ -20,6 +20,7 @@ def obter_token():
         "grant_type": "client_credentials"
     }
     resp = requests.post(url, headers=headers, data=data)
+    print("[DEBUG] Token:", resp.json())  # DEBUG
     return resp.json().get("access_token")
 
 # Localiza o ID do arquivo Excel
@@ -28,6 +29,7 @@ def buscar_arquivo_excel(token):
     url = f"https://graph.microsoft.com/v1.0/me/drive/root:{caminho}"
     headers = {"Authorization": f"Bearer {token}"}
     resp = requests.get(url, headers=headers)
+    print("[DEBUG] Arquivo localizado:", resp.json())  # DEBUG
     return resp.json().get("id")
 
 # Insere os dados na planilha
@@ -49,24 +51,12 @@ def inserir_linha_excel(json_dados, mensagem_original):
         mensagem_original
     ]]
 
-    # Define o corpo do conteúdo
-    body = {"values": dados}
-
-    # Encontra a última linha preenchida
-    range_url = f"https://graph.microsoft.com/v1.0/me/drive/items/{arquivo_id}/workbook/worksheets('{EXCEL_WORKSHEET}')/usedRange"
-    range_resp = requests.get(range_url, headers={"Authorization": f"Bearer {token}"})
-    range_data = range_resp.json()
-    last_row = range_data.get("address", "").split("!")[-1].split(":")[-1]
-    row_num = int(''.join(filter(str.isdigit, last_row))) + 1 if last_row else 2  # Pula o cabeçalho
-
-    # Define o range destino para inserir (linha nova)
-    cell_range = f"A{row_num}:H{row_num}"  # 8 colunas
-    url = f"https://graph.microsoft.com/v1.0/me/drive/items/{arquivo_id}/workbook/worksheets('{EXCEL_WORKSHEET}')/range(address='{cell_range}')"
-
+    url = f"https://graph.microsoft.com/v1.0/me/drive/items/{arquivo_id}/workbook/worksheets('{EXCEL_WORKSHEET}')/tables/0/rows/add"
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     }
-
-    response = requests.patch(url, headers=headers, json=body)
-    return response.status_code == 200
+    body = {"values": dados}
+    response = requests.post(url, headers=headers, json=body)
+    print("[DEBUG] Resposta Excel:", response.status_code, response.text)  # DEBUG
+    return response.status_code in [200, 201]
