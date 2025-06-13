@@ -25,10 +25,10 @@ def obter_token():
 
 # Localiza o ID do arquivo Excel
 def buscar_arquivo_excel(token):
-    url = f"https://graph.microsoft.com/v1.0/users/{EXCEL_USER_EMAIL}/drive/root:/{EXCEL_FOLDER_NAME}/{EXCEL_FILE_NAME}"
+    url = f"https://graph.microsoft.com/v1.0/users/{os.getenv('EXCEL_USER_EMAIL')}/drive/root:/{EXCEL_FOLDER_NAME}/{EXCEL_FILE_NAME}"
     headers = {"Authorization": f"Bearer {token}"}
     resp = requests.get(url, headers=headers)
-    print("[DEBUG] Arquivo localizado:", resp.json())
+    print("[DEBUG] Arquivo localizado:", resp.text)
     return resp.json().get("id")
 
 # Insere os dados na planilha
