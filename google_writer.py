@@ -1,7 +1,5 @@
 import os
 import gspread
-import json
-import tempfile
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Define escopo de permissões do Google Sheets
@@ -14,20 +12,13 @@ escopos = [
 NOME_PLANILHA = "Controle Financeiro"
 NOME_ABA = "Dados de Lançamentos"
 
+# Caminho do arquivo JSON com credenciais (variável de ambiente definida no Render)
+CAMINHO_CREDENCIAL = "google_credentials.json"
+
 def inserir_linha_google_sheets(json_dados, mensagem_original):
     try:
-        # Salva o conteúdo do JSON da variável de ambiente em um arquivo temporário
-        conteudo_json = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
-        if not conteudo_json:
-            print("[ERRO] Variável de ambiente GOOGLE_SERVICE_ACCOUNT_JSON não encontrada.")
-            return False
-
-        with tempfile.NamedTemporaryFile(mode='w+', suffix='.json', delete=False) as temp_json:
-            temp_json.write(conteudo_json)
-            temp_json_path = temp_json.name
-
         # Autenticação
-        credenciais = ServiceAccountCredentials.from_json_keyfile_name(temp_json_path, escopos)
+        credenciais = ServiceAccountCredentials.from_json_keyfile_name(CAMINHO_CREDENCIAL, escopos)
         cliente = gspread.authorize(credenciais)
 
         # Acessa planilha e aba
@@ -48,11 +39,15 @@ def inserir_linha_google_sheets(json_dados, mensagem_original):
             mensagem_original
         ]
 
-        aba.append_row(linha, value_input_option="USER_ENTERED")
+        # Adiciona linha
+        response = aba.append_row(linha, value_input_option="USER_ENTERED")
+        print("[DEBUG GOOGLE SHEETS] Resposta completa:", response)
 
-        # Remove o arquivo temporário
-        os.remove(temp_json_path)
-        return True
+        if response:
+            return True
+        else:
+            print("[ERRO GOOGLE SHEETS] Nenhuma resposta ou retorno inesperado ao adicionar a linha.")
+            return False
 
     except Exception as e:
         print(f"[ERRO GOOGLE SHEETS] {e}")
