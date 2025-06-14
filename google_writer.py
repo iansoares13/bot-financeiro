@@ -12,7 +12,7 @@ NOME_PLANILHA = "Controle Financeiro"
 NOME_ABA = "Dados de Lançamentos"
 
 # Caminho do arquivo JSON com credenciais
-CAMINHO_CREDENCIAL = "google-credentials.json"
+CAMINHO_CREDENCIAL = "google_credentials.json"
 
 def inserir_linha_google_sheets(json_dados, mensagem_original):
     try:
