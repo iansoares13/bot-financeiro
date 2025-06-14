@@ -35,7 +35,7 @@ def receber_mensagem():
         texto_usuario = data["message"].get("text", "")
 
         if texto_usuario.strip().lower() in ["/start", "start"]:
-            enviar_mensagem_telegram(chat_id, "Olá! Envie sua transação para lançamento no controle.")
+            enviar_mensagem_telegram(chat_id, "Coé! Vamos começar esse controle logo. Vai me falando o que você ganha e o que você gasta, e deixa o resto comigo!")
             return "OK"
             
         if chat_id in dados_temp:
@@ -76,7 +76,7 @@ def receber_mensagem():
                 if sucesso:
                     enviar_mensagem_telegram(chat_id, "✅ Lançamento confirmado e salvo no Excel!")
                 else:
-                    enviar_mensagem_telegram(chat_id, "⚠️ Erro ao salvar no Excel.")
+                    enviar_mensagem_telegram(chat_id, "⚠️ Erro ao salvar na planilha.")
             dados_temp.pop(chat_id, None)
         elif "Corrigir" in resposta:
             enviar_mensagem_telegram(chat_id, "✏️ Ok! Envie apenas o que deseja corrigir.")
